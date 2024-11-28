@@ -14,9 +14,9 @@ public class Maze
 
         IsFountainActivated = false;
         Rooms[0, 0] = Content.Exit;
-        // GenerateMaelstrom();
-        // if (Rooms.Length == 8) // Size is large
-        //     GenerateMaelstrom();
+        GenerateMaelstrom();
+        if (Rooms.GetLength(0) == 8) // Size is large
+            GenerateMaelstrom();
         Rooms[0, 2] = Content.Fountain;
     }
 
@@ -26,9 +26,9 @@ public class Maze
         (int row, int column) maelstrom = (0, 0);
         do
         {
-            maelstrom.row = random.Next(Rooms.Length);
-            maelstrom.column = random.Next(Rooms.Length);
-        } while (maelstrom == (0, 0) || maelstrom == (0, 2));
+            maelstrom.row = random.Next(Rooms.GetLength(0));
+            maelstrom.column = random.Next(Rooms.GetLength(0));
+        } while (Rooms[maelstrom.row, maelstrom.column] != Content.Empty);
 
         Rooms[maelstrom.column, maelstrom.row] = Content.Maelstrom;
     }

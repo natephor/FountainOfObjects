@@ -1,7 +1,6 @@
 ﻿using FountainOfObjects;
 
 int userChoice;
-var random = new Random();
 
 Console.WriteLine("Enter the maze!");
 string? userInput;
@@ -59,25 +58,17 @@ while (!maze.IsFountainActivated || maze.Rooms[playerRow, playerColumn] != Conte
             break;
     }
 
-    // playerIsAtExit = currentPlayerPos == mazeEntrancePos;
-    // if (maelstroms.Any(m => m == currentPlayerPos))
-    // {
-    //     Console.WriteLine("Oh no! you ran into a maelstrom!");
-    //     var previousMaelstromLocation = currentPlayerPos;
-    //     var nextMaelstromLocation = currentPlayerPos;
-    //     currentPlayerPos.row = Math.Clamp(currentPlayerPos.row + 2, 0, mazeSize);
-    //     currentPlayerPos.column = Math.Clamp(currentPlayerPos.column + 1, 0, mazeSize);
-    //     
-    //     nextMaelstromLocation.row = Math.Clamp(nextMaelstromLocation.row - 2, 0, mazeSize);
-    //     nextMaelstromLocation.column = Math.Clamp(nextMaelstromLocation.column - 1, 0, mazeSize);
-    //
-    //     if (maelstroms[0] == previousMaelstromLocation)
-    //         maelstroms[0] = nextMaelstromLocation;
-    //     else
-    //         maelstroms[1] = nextMaelstromLocation;
-    //     
-    //     Console.WriteLine($"The player got sneezed by a maelstrom to location {currentPlayerPos}");
-    // }
+    if (maze.Rooms[playerRow, playerColumn] == Content.Maelstrom)
+    {
+        (int row, int column) maelstrom = (playerRow, playerColumn);
+        Console.WriteLine("Oh no! you ran into a maelstrom!");
+        playerRow = Math.Clamp(playerRow + 2, 0, mazeSize - 1);
+        playerColumn = Math.Clamp(++playerColumn, 0, mazeSize - 1);
+
+        maelstrom.row = Math.Clamp(maelstrom.row - 2, 0, mazeSize - 1);
+        maelstrom.column = Math.Clamp(--maelstrom.column, 0, mazeSize - 1);
+        Console.WriteLine($"The player got sneezed by a maelstrom to (Row={playerRow} Column={playerColumn})");
+    }
 }
 
 Console.WriteLine("The Fountain of Objects has been reactivated, and you have escaped with your life!");
@@ -88,7 +79,7 @@ return;
 string GetUserAction()
 {
     string? userAction;
-
+    
     do
     {
         Console.Write("What do you want to do? ");
