@@ -1,5 +1,22 @@
-﻿(int x, int y) player = (0, 0);
-Console.WriteLine($"Player is at {player}");
+﻿string? userInput = "";
+var mazeSizes = new Dictionary<int, int>
+{
+    { 1, 4 },
+    { 2, 6 },
+    { 3, 8 }
+};
+int userChoice;
+do
+{
+    Console.WriteLine("Do you want to play in a small, medium or large game? ");
+    Console.WriteLine("1. Small");
+    Console.WriteLine("2. Medium");
+    Console.WriteLine("3. Large");
+    userInput = Console.ReadLine();
+} while (!int.TryParse(userInput, out userChoice) || userChoice is < 1 or > 3);
+
+var sizeOfMaze = mazeSizes[userChoice];
+(int x, int y) player = (0, 0);
 
 var isFountainActivated = false;
 var playerIsAtExit = player is { x: 0, y: 0 };
@@ -16,7 +33,7 @@ while (!isFountainActivated || !playerIsAtExit)
     switch (userAction)
     {
         case "move east":
-            if (player.y == 3)
+            if (player.y == sizeOfMaze - 1)
                 Console.WriteLine("You've hit a wall. Cannot move east.");
             else
                 player.y += 1;
@@ -28,7 +45,7 @@ while (!isFountainActivated || !playerIsAtExit)
                 player.x -= 1;
             break;
         case "move south":
-            if (player.x == 3)
+            if (player.x == sizeOfMaze - 1)
                 Console.WriteLine("You've hit a wall. Cannot move south.");
             else
                 player.x += 1;
